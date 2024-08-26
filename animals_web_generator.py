@@ -37,7 +37,12 @@ def get_animal_key_data(animals_data):
         diet = get_animal_diet(animal)
         location = get_animal_location(animal)
         animal_type = get_animal_type(animal)
-        output += f"Name: {name}\nDiet: {diet}\nLocation: {location}\nType: {animal_type}\n\n"
+        output += '<li class="cards__item"><br>'
+        output += f"Name: {name}<br>\n"
+        output += f"Diet: {diet}<br>\n"
+        output += f"Location: {location}<br>\n"
+        output += f"Type: {animal_type}<br>\n"
+        output += '</li>\n'
     return output
 
 
