@@ -12,6 +12,11 @@ def get_animal_name(animal):
     return name
 
 
+def get_animal_sci_name(animal):
+    sci_name = animal['taxonomy']['scientific_name']
+    return sci_name
+
+
 def get_animal_diet(animal):
     diet = animal['characteristics']['diet']
     return diet
@@ -30,22 +35,30 @@ def get_animal_type(animal):
     return animal_type
 
 
+def serialize_animal(animal):
+    output = ''
+    name = get_animal_name(animal)
+    diet = get_animal_diet(animal)
+    location = get_animal_location(animal)
+    animal_type = get_animal_type(animal)
+    sci_name = get_animal_sci_name(animal)
+    output += '<li class="cards__item"><br>'
+    output += f'<div class="card__title">{name}</div>\n'
+    output += '<p class="card__text">\n'
+    output += f'<strong>Scientific Name:</strong> {sci_name}<br>\n'
+    output += f'<strong>Location:</strong> {location}<br>\n'
+    if animal_type:
+        output += f'<strong>Type:</strong> {animal_type}<br>\n'
+    output += f'<strong>Diet:</strong> {diet}<br>\n'
+    output += '</p>\n'
+    output += '</li>\n'
+    return output
+
+
 def get_animal_key_data(animals_data):
     output = ''
     for animal in animals_data:
-        name = get_animal_name(animal)
-        diet = get_animal_diet(animal)
-        location = get_animal_location(animal)
-        animal_type = get_animal_type(animal)
-        output += '<li class="cards__item"><br>'
-        output += f'<div class="card__title">{name}</div>\n'
-        output += '<p class="card__text">\n'
-        output += f'<strong>Location:</strong> {location}<br>\n'
-        if animal_type:
-            output += f'<strong>Type:</strong> {animal_type}<br>\n'
-        output += f'<strong>Diet:</strong> {diet}<br>\n'
-        output += '</p>\n'
-        output += '</li>\n'
+        output += serialize_animal(animal)
     return output
 
 
