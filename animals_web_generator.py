@@ -26,7 +26,7 @@ def get_animal_type(animal):
     try:
         animal_type = animal['characteristics']['type']
     except KeyError:
-        animal_type = None
+        return ''
     return animal_type
 
 
@@ -38,10 +38,13 @@ def get_animal_key_data(animals_data):
         location = get_animal_location(animal)
         animal_type = get_animal_type(animal)
         output += '<li class="cards__item"><br>'
-        output += f"Name: {name}<br>\n"
-        output += f"Diet: {diet}<br>\n"
-        output += f"Location: {location}<br>\n"
-        output += f"Type: {animal_type}<br>\n"
+        output += f'<div class="card__title">{name}</div>\n'
+        output += '<p class="card__text">\n'
+        output += f'<strong>Location:</strong> {location}<br>\n'
+        if animal_type:
+            output += f'<strong>Type:</strong> {animal_type}<br>\n'
+        output += f'<strong>Diet:</strong> {diet}<br>\n'
+        output += '</p>\n'
         output += '</li>\n'
     return output
 
