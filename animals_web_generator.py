@@ -94,6 +94,9 @@ def get_chosen_animal_data(animals_data):
         if skin_type == chosen_skin_type:
             output += serialize_animal(animal)
 
+    if not output:
+        output += f"No animals found with skin type '{chosen_skin_type}'"
+
     return output
 
 
