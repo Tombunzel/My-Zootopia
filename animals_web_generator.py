@@ -28,6 +28,7 @@ def get_animal_location(animal):
 
 
 def get_animal_type(animal):
+    """gets the animal type from the JSON file, unless there isn't one"""
     try:
         animal_type = animal['characteristics']['type']
     except KeyError:
@@ -36,6 +37,7 @@ def get_animal_type(animal):
 
 
 def serialize_animal(animal):
+    """This function serializes a given animal and returns an HTML format string"""
     output = ''
     name = get_animal_name(animal)
     diet = get_animal_diet(animal)
@@ -58,6 +60,8 @@ def serialize_animal(animal):
 
 
 def get_animal_key_data(animals_data):
+    """This function uses the function serialize_animal() to create and return an HTML format string
+    for all animals from the JSON file"""
     output = ''
     for animal in animals_data:
         output += serialize_animal(animal)
@@ -65,6 +69,7 @@ def get_animal_key_data(animals_data):
 
 
 def get_skin_types_list(animals_data):
+    """This function creates and returns a list of all the animal skin types from the JSON file"""
     skin_types_list = []
     for animal in animals_data:
         skin_type = animal['characteristics']['skin_type']
@@ -73,6 +78,12 @@ def get_skin_types_list(animals_data):
 
 
 def get_chosen_animal_data(animals_data):
+    """
+    This function allows the user to choose a skin type, and uses the function serialize_animal()
+    to create an HTML format string of the data of all the animals with said skin type
+    :param animals_data: data from the JSON file
+    :return: HTML format string with data of all chosen animals
+    """
     output = ''
     skin_types_list = get_skin_types_list(animals_data)
     for skin_type in skin_types_list:
@@ -92,6 +103,7 @@ def load_html_data(file_path):
 
 
 def create_final_output(template_data, animals_data):
+    """This function replaces the placeholder with the relevant animals data"""
     final_output = template_data.replace("__REPLACE_ANIMALS_INFO__", animals_data)
     return final_output
 
@@ -102,8 +114,10 @@ def write_data_new_file(output, file_path):
 
 
 def main():
+    """The program gets the chosen animal data from JSON file, then gets the data from the template HTML file,
+    creates the output to be written to the new HTML file, and then writes the data to it."""
     animals_data = get_chosen_animal_data(load_data("animals_data.json"))
-    # animals_data = get_animal_key_data(load_data("animals_data.json"))
+    # animals_data = get_animal_key_data(load_data("animals_data.json"))  # alternative function w/o user choice
     template_data = load_html_data("animals_template.html")
     final_output = create_final_output(template_data, animals_data)
     write_data_new_file(final_output, "animals.html")
