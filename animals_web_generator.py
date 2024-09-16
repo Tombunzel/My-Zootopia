@@ -1,6 +1,8 @@
 import json
 import data_fetcher
 
+JSON_FILE = "animals_data.json"
+
 
 def write_api_data_to_json(data, file_name):
     with open(file_name, "w") as handle:
@@ -83,29 +85,6 @@ def get_skin_types_list(animals_data):
     return skin_types_list
 
 
-def get_chosen_animal_data(animals_data):
-    """
-    This function allows the user to choose a skin type, and uses the function serialize_animal()
-    to create an HTML format string of the data of all the animals with said skin type
-    :param animals_data: data from the JSON file
-    :return: HTML format string with data of all chosen animals
-    """
-    output = ''
-    skin_types_list = get_skin_types_list(animals_data)
-    for skin_type in skin_types_list:
-        print(skin_type)
-    chosen_skin_type = input("Please enter exactly the skin type of your choice: ")
-    for animal in animals_data:
-        skin_type = animal['characteristics']['skin_type']
-        if skin_type == chosen_skin_type:
-            output += serialize_animal(animal)
-
-    if not output:
-        output += f"No animals found with skin type '{chosen_skin_type}'"
-
-    return output
-
-
 def load_html_data(file_path):
     with open(file_path, 'r') as handle:
         return handle.read()
@@ -128,13 +107,10 @@ def write_data_new_file(output, file_path):
 def main():
     """The program gets the chosen animal data from JSON file, then gets the data from the template HTML file,
     creates the output to be written to the new HTML file, and then writes the data to it."""
-    # animals_data = get_chosen_animal_data(load_data("animals_data.json"))
-    # animals_data = get_api_animal_data()
-    file_name = "animals_data.json"
     animal_name = input('Please name an animal: ')
     api_animal_data = data_fetcher.fetch_data(animal_name)
-    write_api_data_to_json(api_animal_data, file_name)
-    animals_data = get_animal_key_data(load_data(file_name))  # alternative function w/o user choice
+    write_api_data_to_json(api_animal_data, JSON_FILE)
+    animals_data = get_animal_key_data(load_data(JSON_FILE))  # alternative function w/o user choice
 
     template_data = load_html_data("animals_template.html")
     final_output = create_final_output(template_data, animals_data)
