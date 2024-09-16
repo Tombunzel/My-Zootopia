@@ -3,14 +3,19 @@ import requests
 
 
 def get_api_animal_data():
-    name = 'cheetah'
+    name = input('Please name an animal: ')
     api_url = 'https://api.api-ninjas.com/v1/animals?name={}'.format(name)
     response = requests.get(api_url, headers={'X-Api-Key': 'a7X7Veruy6m06+jyPu0Iig==tBPyQCi8e9wMLc1s'})
     if response.status_code == requests.codes.ok:
-        res_list = response.json()
-        print(res_list)
+        res_list = response.text
+        return res_list
     else:
         print("Error:", response.status_code, response.text)
+
+
+def write_api_data_to_json(data, file_name):
+    with open(file_name, "w") as handle:
+        handle.write(data)
 
 
 def load_data(file_path):
@@ -119,6 +124,8 @@ def load_html_data(file_path):
 
 def create_final_output(template_data, animals_data):
     """This function replaces the placeholder with the relevant animals data"""
+    if animals_data == '':
+        animals_data = "<h2>The animal doesn't exist.</h2>"
     final_output = template_data.replace("__REPLACE_ANIMALS_INFO__", animals_data)
     return final_output
 
@@ -126,17 +133,22 @@ def create_final_output(template_data, animals_data):
 def write_data_new_file(output, file_path):
     with open(file_path, "w") as handle:
         handle.write(output)
+    print(f"Website was successfully generated to the file {file_path}")
 
 
 def main():
     """The program gets the chosen animal data from JSON file, then gets the data from the template HTML file,
     creates the output to be written to the new HTML file, and then writes the data to it."""
-    animals_data = get_chosen_animal_data(load_data("animals_data.json"))
-    # animals_data = get_animal_key_data(load_data("animals_data.json"))  # alternative function w/o user choice
+    # animals_data = get_chosen_animal_data(load_data("animals_data.json"))
+    # animals_data = get_api_animal_data()
+    file_name = "animals_data.json"
+    api_animal_data = get_api_animal_data()
+    write_api_data_to_json(api_animal_data, file_name)
+    animals_data = get_animal_key_data(load_data(file_name))  # alternative function w/o user choice
+
     template_data = load_html_data("animals_template.html")
     final_output = create_final_output(template_data, animals_data)
     write_data_new_file(final_output, "animals.html")
-
 
 
 if __name__ == "__main__":
