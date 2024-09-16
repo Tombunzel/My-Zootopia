@@ -1,4 +1,16 @@
 import json
+import requests
+
+
+def get_api_animal_data():
+    name = 'cheetah'
+    api_url = 'https://api.api-ninjas.com/v1/animals?name={}'.format(name)
+    response = requests.get(api_url, headers={'X-Api-Key': 'a7X7Veruy6m06+jyPu0Iig==tBPyQCi8e9wMLc1s'})
+    if response.status_code == requests.codes.ok:
+        res_list = response.json()
+        print(res_list)
+    else:
+        print("Error:", response.status_code, response.text)
 
 
 def load_data(file_path):
@@ -124,6 +136,7 @@ def main():
     template_data = load_html_data("animals_template.html")
     final_output = create_final_output(template_data, animals_data)
     write_data_new_file(final_output, "animals.html")
+
 
 
 if __name__ == "__main__":
