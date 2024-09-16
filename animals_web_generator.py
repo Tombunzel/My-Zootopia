@@ -1,16 +1,5 @@
 import json
-import requests
-
-
-def get_api_animal_data():
-    name = input('Please name an animal: ')
-    api_url = 'https://api.api-ninjas.com/v1/animals?name={}'.format(name)
-    response = requests.get(api_url, headers={'X-Api-Key': 'a7X7Veruy6m06+jyPu0Iig==tBPyQCi8e9wMLc1s'})
-    if response.status_code == requests.codes.ok:
-        res_list = response.text
-        return res_list
-    else:
-        print("Error:", response.status_code, response.text)
+import data_fetcher
 
 
 def write_api_data_to_json(data, file_name):
@@ -142,7 +131,8 @@ def main():
     # animals_data = get_chosen_animal_data(load_data("animals_data.json"))
     # animals_data = get_api_animal_data()
     file_name = "animals_data.json"
-    api_animal_data = get_api_animal_data()
+    animal_name = input('Please name an animal: ')
+    api_animal_data = data_fetcher.fetch_data(animal_name)
     write_api_data_to_json(api_animal_data, file_name)
     animals_data = get_animal_key_data(load_data(file_name))  # alternative function w/o user choice
 
