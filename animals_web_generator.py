@@ -93,15 +93,6 @@ def get_animal_key_data(animals_data):
     return output
 
 
-def get_skin_types_list(animals_data):
-    """This function creates and returns a list of all the animal skin types from the JSON file"""
-    skin_types_list = []
-    for animal in animals_data:
-        skin_type = animal['characteristics']['skin_type']
-        skin_types_list.append(skin_type)
-    return skin_types_list
-
-
 def load_html_data(file_path):
     """load data from HTML file"""
     with open(file_path, 'r', encoding="utf-8") as handle:
