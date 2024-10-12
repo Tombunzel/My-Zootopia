@@ -5,33 +5,50 @@ JSON_FILE = "animals_data.json"
 
 
 def write_api_data_to_json(data, file_name):
-    with open(file_name, "w") as handle:
+    """write data to file"""
+    with open(file_name, "w", encoding="utf-8") as handle:
         handle.write(data)
 
 
 def load_data(file_path):
     """loads a JSON file"""
-    with open(file_path, "r") as handle:
+    with open(file_path, "r", encoding="utf-8") as handle:
         return json.load(handle)
 
 
 def get_animal_name(animal):
-    name = animal['name']
+    """get animal name"""
+    try:
+        name = animal['name']
+    except KeyError:
+        return ''
     return name
 
 
 def get_animal_sci_name(animal):
-    sci_name = animal['taxonomy']['scientific_name']
+    """get animal scientific name"""
+    try:
+        sci_name = animal['taxonomy']['scientific_name']
+    except KeyError:
+        return ''
     return sci_name
 
 
 def get_animal_diet(animal):
-    diet = animal['characteristics']['diet']
+    """get animal diet"""
+    try:
+        diet = animal['characteristics']['diet']
+    except KeyError:
+        return ''
     return diet
 
 
 def get_animal_location(animal):
-    first_location = animal['locations'][0]
+    """get animal first location"""
+    try:
+        first_location = animal['locations'][0]
+    except KeyError:
+        return ''
     return first_location
 
 
@@ -86,7 +103,8 @@ def get_skin_types_list(animals_data):
 
 
 def load_html_data(file_path):
-    with open(file_path, 'r') as handle:
+    """load data from HTML file"""
+    with open(file_path, 'r', encoding="utf-8") as handle:
         return handle.read()
 
 
@@ -99,7 +117,8 @@ def create_final_output(template_data, animals_data):
 
 
 def write_data_new_file(output, file_path):
-    with open(file_path, "w") as handle:
+    """write data to HTML file"""
+    with open(file_path, "w", encoding="utf-8") as handle:
         handle.write(output)
     print(f"Website was successfully generated to the file {file_path}")
 
