@@ -120,7 +120,7 @@ def main():
     animal_name = input('Please name an animal: ')
     api_animal_data = data_fetcher.fetch_data(animal_name)
     write_api_data_to_json(api_animal_data, JSON_FILE)
-    animals_data = get_animal_key_data(load_data(JSON_FILE))  # alternative function w/o user choice
+    animals_data = get_animal_key_data(load_data(JSON_FILE))
 
     template_data = load_html_data("animals_template.html")
     final_output = create_final_output(template_data, animals_data)
